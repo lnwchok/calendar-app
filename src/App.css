@@ -1,0 +1,31 @@
+/* #root { */
+/*   max-width: 1024px; */
+/*   margin: 0 auto; */
+/*   padding: 2rem; */
+/*   text-align: center; */
+/* } */
+
+
+
+body {
+  /* display: flex; */
+  /* place-items: center; */
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.headerPanel {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 17rem 1050px auto;
+  padding: 1rem;
+
+}
+
+.container {
+  /* min-width: 320px; */
+  width: 1050px;
+  margin-left: 18rem;
+  /* margin: 0 auto; */
+  /* padding: 1rem; */
+}
