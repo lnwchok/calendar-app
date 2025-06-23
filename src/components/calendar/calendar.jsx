@@ -29,7 +29,6 @@ function Calendar(props) {
         </div>
       </>
     );
-
   }
 
   function renderDays(today, month) {
@@ -37,9 +36,9 @@ function Calendar(props) {
     const day_names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const Weekend = (date) => {
       if (date === 'Sat') {
-        return 'bg-gray-300';
+        return 'weekend';
       } else if (date === 'Sun') {
-        return 'bg-gray-300';
+        return 'weekend';
       } else { return ''; }
     }
     const Today = (td, i, m) => {
@@ -64,7 +63,7 @@ function Calendar(props) {
     );
   }
 
-  function renderCells(monthDate) {
+  function renderCells(monthDate, events) {
     const monthStart = startOfMonth(monthDate);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
@@ -78,26 +77,21 @@ function Calendar(props) {
       } else { return false; }
     }
 
+    const eventsinMonth = events.filter(e => format(e.date, 'yyyy-MM') === format(monthDate, 'yyyy-MM'))
     const rows = [];
     let days = [];
     let day = startDate;
-    let formattedDate = '';
+
+    const hasEvent = (date) => { return eventsinMonth.map(e => e.date).includes(format(date, 'yyyy-MM-dd')) }
 
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, 'yyyy-MM-dd');
-        // const dayEvents = events.filter(e => e.date === formattedDate);
         days.push(
           <div
             key={day}
-            className={` p-1  overflow-y-auto text-xs ${isWeekend(day) ? 'bg-gray-300' : ''} ${props.mode === 'month' ? 'h-28 border-b' : ''}`}
+            className={`p-1  overflow-y-auto text-xs ${isWeekend(day) ? 'weekend' : ''} ${props.mode === 'month' ? 'h-28 border-b' : ''} ${hasEvent(day) ? 'event_day' : ''}`}
           >
             {format(day, 'MM') === format(monthDate, 'MM') ? renderDate(day) : ''}
-            {/* {dayEvents.slice(0, 2).map(e => ( */}
-            {/*   <div key={e.id} className="bg-blue-200 rounded mt-1 px-1"> */}
-            {/*     {e.description} */}
-            {/*   </div> */}
-            {/* ))} */}
           </div>
         );
         day = addDays(day, 1);
@@ -118,19 +112,16 @@ function Calendar(props) {
         <>
           {headerSection(props.currentMonth)}
           {renderDays(props.today, props.currentMonth)}
-          {renderCells(props.currentMonth)}
+          {renderCells(props.currentMonth, props.events)}
         </>
       )
     } else if (M === 'year') {
       let mon = [];
       for (let i = 0; i < 12; i++) {
-        // let m = Date()
-
         mon.push(
           <div key={i}>
             {renderDays(props.today, setMonth(props.currentMonth, i))}
-            {renderCells(setMonth(props.currentMonth, i))}
-
+            {renderCells(setMonth(props.currentMonth, i), props.events)}
           </div>
         );
 

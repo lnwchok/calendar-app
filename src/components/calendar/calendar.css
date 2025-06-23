@@ -4,3 +4,14 @@
 	grid-template-columns: auto auto auto;
 	gap: 1rem;
 }
+
+.weekend {
+	color: var(--color-gray-500);
+	border-color: black;
+}
+
+.event_day {
+	color: var(--color-red-400);
+	border-color: black;
+	font-weight: 700;
+}
